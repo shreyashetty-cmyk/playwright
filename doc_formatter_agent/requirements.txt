@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+python-docx
+playwright
+python-multipart
+google-generativeai
+requests
+chromadb
+sentence-transformers
+language-tool-python
+jinja2
+aiofiles
+

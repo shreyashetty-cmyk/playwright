@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Canvas - Research & Document Workspace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .panel h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .memory-panel {
+            grid-column: 1 / -1;
+        }
+        
+        .memory-results {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+        
+        .memory-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background: #f9f9f9;
+        }
+        
+        .memory-item h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #667eea;
+        }
+        
+        .memory-item p {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .enhancement-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Unified Canvas Workspace</h1>
+            <div class="subtitle">Research → Synthesis → Document → Presentation Pipeline</div>
+        </header>
+        
+        <div class="workspace">
+            <!-- Research Panel -->
+            <div class="panel">
+                <h2>🔍 Research Agent</h2>
+                <form id="researchForm">
+                    <div class="form-group">
+                        <label for="topic">Research Topic</label>
+                        <input type="text" id="topic" name="topic" placeholder="e.g., Impact of AI in Healthcare" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="num_articles">Number of Articles</label>
+                        <input type="number" id="num_articles" name="num_articles" value="3" min="1" max="10">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="search_engine">Search Engine</label>
+                        <select id="search_engine" name="search_engine">
+                            <option value="bing">Bing</option>
+                            <option value="duckduckgo">DuckDuckGo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="enhance_content" name="enhance_content">
+                            <label for="enhance_content">Enhance Content (Rewrite & Grammar)</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit">Start Research</button>
+                    <div class="status" id="researchStatus"></div>
+                    <div class="loading" id="researchLoading">
+                        <div class="spinner"></div>
+                        <p>Researching...</p>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Document Formatting Panel -->
+            <div class="panel">
+                <h2>📄 Document Formatting</h2>
+                <form id="formatForm">
+                    <div class="form-group">
+                        <label for="docFile">Upload Document (.docx)</label>
+                        <input type="file" id="docFile" name="file" accept=".docx" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="use_llm" name="use_llm">
+                            <label for="use_llm">Use AI Classification</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit">Format Document</button>
+                    <div class="status" id="formatStatus"></div>
+                    <div class="loading" id="formatLoading">
+                        <div class="spinner"></div>
+                        <p>Formatting...</p>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Content Enhancement Panel -->
+            <div class="panel">
+                <h2>✨ Content Enhancement</h2>
+                <form id="enhanceForm">
+                    <div class="form-group">
+                        <label for="contentText">Text to Enhance</label>
+                        <textarea id="contentText" name="text" rows="6" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" placeholder="Paste text here..."></textarea>
+                    </div>
+                    
+                    <div class="enhancement-options">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="rewrite" name="rewrite">
+                            <label for="rewrite">Rewrite</label>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="correct_tone" name="correct_tone">
+                            <label for="correct_tone">Correct Tone</label>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="check_grammar" name="check_grammar" checked>
+                            <label for="check_grammar">Check Grammar</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rewrite_style">Rewrite Style</label>
+                        <select id="rewrite_style" name="rewrite_style">
+                            <option value="academic">Academic</option>
+                            <option value="professional">Professional</option>
+                            <option value="casual">Casual</option>
+                            <option value="concise">Concise</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit">Enhance Content</button>
+                    <div class="status" id="enhanceStatus"></div>
+                </form>
+                
+                <div id="enhancedResult" style="margin-top: 15px; padding: 15px; background: #f9f9f9; border-radius: 5px; display: none;">
+                    <h3 style="font-size: 16px; margin-bottom: 10px;">Enhanced Text:</h3>
+                    <div id="enhancedText" style="white-space: pre-wrap; font-size: 14px;"></div>
+                </div>
+            </div>
+            
+            <!-- Semantic Memory Panel -->
+            <div class="panel memory-panel">
+                <h2>🧠 Semantic Memory</h2>
+                <form id="memoryForm">
+                    <div class="form-group">
+                        <label for="memoryQuery">Search Research History</label>
+                        <input type="text" id="memoryQuery" name="query" placeholder="Search for similar research...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="memoryTopic">Filter by Topic (optional)</label>
+                        <input type="text" id="memoryTopic" name="topic" placeholder="e.g., AI in Healthcare">
+                    </div>
+                    
+                    <button type="submit">Search Memory</button>
+                    <div class="status" id="memoryStatus"></div>
+                </form>
+                
+                <div class="memory-results" id="memoryResults"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Research Form
+        document.getElementById('researchForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const loading = document.getElementById('researchLoading');
+            const status = document.getElementById('researchStatus');
+            
+            loading.style.display = 'block';
+            status.style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/research', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                loading.style.display = 'none';
+                status.style.display = 'block';
+                
+                if (result.success) {
+                    status.className = 'status success';
+                    status.textContent = `✓ ${result.message}`;
+                } else {
+                    status.className = 'status error';
+                    status.textContent = `✗ ${result.message}`;
+                }
+            } catch (error) {
+                loading.style.display = 'none';
+                status.style.display = 'block';
+                status.className = 'status error';
+                status.textContent = `✗ Error: ${error.message}`;
+            }
+        });
+        
+        // Format Form
+        document.getElementById('formatForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const loading = document.getElementById('formatLoading');
+            const status = document.getElementById('formatStatus');
+            
+            loading.style.display = 'block';
+            status.style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/format', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'formatted_document.docx';
+                    a.click();
+                    
+                    loading.style.display = 'none';
+                    status.style.display = 'block';
+                    status.className = 'status success';
+                    status.textContent = '✓ Document formatted and downloaded!';
+                } else {
+                    throw new Error('Formatting failed');
+                }
+            } catch (error) {
+                loading.style.display = 'none';
+                status.style.display = 'block';
+                status.className = 'status error';
+                status.textContent = `✗ Error: ${error.message}`;
+            }
+        });
+        
+        // Enhance Form
+        document.getElementById('enhanceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            formData.append('rewrite', document.getElementById('rewrite').checked);
+            formData.append('correct_tone', document.getElementById('correct_tone').checked);
+            formData.append('check_grammar', document.getElementById('check_grammar').checked);
+            
+            const status = document.getElementById('enhanceStatus');
+            const resultDiv = document.getElementById('enhancedResult');
+            const resultText = document.getElementById('enhancedText');
+            
+            status.style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/enhance', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.enhanced) {
+                    resultText.textContent = result.enhanced;
+                    resultDiv.style.display = 'block';
+                    status.style.display = 'block';
+                    status.className = 'status success';
+                    status.textContent = `✓ Enhanced! Steps: ${result.steps_applied.join(', ')}`;
+                } else {
+                    status.style.display = 'block';
+                    status.className = 'status error';
+                    status.textContent = '✗ Enhancement failed';
+                }
+            } catch (error) {
+                status.style.display = 'block';
+                status.className = 'status error';
+                status.textContent = `✗ Error: ${error.message}`;
+            }
+        });
+        
+        // Memory Form
+        document.getElementById('memoryForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const query = document.getElementById('memoryQuery').value;
+            const topic = document.getElementById('memoryTopic').value;
+            const status = document.getElementById('memoryStatus');
+            const results = document.getElementById('memoryResults');
+            
+            if (!query) {
+                status.style.display = 'block';
+                status.className = 'status error';
+                status.textContent = '✗ Please enter a search query';
+                return;
+            }
+            
+            try {
+                const url = `/api/memory/search?query=${encodeURIComponent(query)}${topic ? '&topic=' + encodeURIComponent(topic) : ''}`;
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.available && result.results.length > 0) {
+                    results.innerHTML = result.results.map(item => `
+                        <div class="memory-item">
+                            <h4>${item.metadata?.url || item.id}</h4>
+                            <p>${item.document.substring(0, 200)}...</p>
+                            <p style="font-size: 11px; color: #999;">Topic: ${item.metadata?.topic || 'N/A'} | ${item.metadata?.timestamp || ''}</p>
+                        </div>
+                    `).join('');
+                    status.style.display = 'block';
+                    status.className = 'status success';
+                    status.textContent = `✓ Found ${result.results.length} results`;
+                } else {
+                    results.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No results found</p>';
+                    status.style.display = 'block';
+                    status.className = 'status info';
+                    status.textContent = 'No matching research found in memory';
+                }
+            } catch (error) {
+                status.style.display = 'block';
+                status.className = 'status error';
+                status.textContent = `✗ Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

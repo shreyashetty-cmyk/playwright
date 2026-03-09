@@ -1,0 +1,22 @@
+# Environment and secrets
+venv/
+.venv/
+.env
+*.env
+
+# Browser profile (contains session cookies — treat like a password)
+browser_profile/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store

@@ -1,0 +1,23 @@
+Set the document title "Introduction to Machine Learning" to Arial font, size 24pt, bold, and center it.
+
+Set all chapter headings (Chapter 1: Fundamentals, Chapter 2: Deep Learning, Chapter 3: Applications, Chapter 4: Model Evaluation and Validation, Chapter 5: Challenges and Limitations, Chapter 6: Future Trends) to Arial font, size 18pt, bold, and color them dark blue.
+
+Set all main section headings (Supervised Learning, Unsupervised Learning, Reinforcement Learning, Neural Networks, Convolutional Neural Networks, Recurrent Neural Networks, Healthcare, Finance, Transportation, E-commerce and Retail, Natural Language Processing, Training Validation and Test Sets, Performance Metrics, Bias and Fairness, Data Quality and Quantity, Interpretability, Computational Resources, Federated Learning, AutoML, Large Language Models, Edge Computing) to Arial font, size 16pt, bold, and italic.
+
+Set all body paragraphs to Times New Roman font, size 12pt.
+
+Justify all body paragraphs (align text to both left and right margins).
+
+Set line spacing to 1.5 for the entire document.
+
+Add a Table of Contents after the title page, before Chapter 1.
+
+Add page numbers in the footer, centered.
+
+Make the conclusion section (both paragraphs) italic.
+
+Add a page break before each chapter starting from Chapter 2.
+
+Format all bullet point lists with consistent indentation and spacing.
+
+Make the first paragraph after each chapter heading bold.
